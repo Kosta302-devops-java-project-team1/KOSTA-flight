@@ -13,19 +13,20 @@ public class FlightDetailHandler implements DetailViewHandler<Flight> {
     public void showDetail(Flight flight, Member member, int adults) {
         // 비회원 뷰
         if (member == null) {
-            System.out.println("\n=== 항공권 상세보기 ===");
-            System.out.println(flight);
+            while (true) {
+                System.out.println("\n=== 항공권 상세보기 ===");
+                System.out.println(flight);
 
-            System.out.println("[0] 이전으로");
-            String input = sc.nextLine();
+                System.out.println("[0] 이전으로");
+                String input = sc.nextLine();
 
-            if (input.equals("0")) {
-                return; // 뒤로가기
-            } else {
-                System.out.println("잘못된 입력입니다.");
+                if (input.equals("0")) {
+                    return; // 뒤로가기
+                } else {
+                    System.out.println("잘못된 입력입니다.");
+                }
             }
         }
-
 
         while (true) {
             System.out.println("\n=== 항공권 상세보기 ===");
