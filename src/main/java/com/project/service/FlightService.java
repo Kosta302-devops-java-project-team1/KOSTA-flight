@@ -55,17 +55,19 @@ public class FlightService {
                             duration,
                             price
                     );
-
                     flights.add(flight);
-                    long flight_id = flightDao.saveOrUpdatePrice(flight);
-                    // todo 에러 예외처리
-                    if (flight_id == 0) throw new SQLException("저장 실패");
-
-                    seatService.initSeats(flight_id); // 항공 생성후 좌석 생성
-
                 }
             }
         }
+
+        List<Long> flightIds = flightDao.saveOrUpdatePrice(flights);
+
+        for (Long flightId : flightIds) {
+            if (flightId != 0) {
+                seatService.initSeats(flightId); // 항공 생성후 좌석 생성
+            }
+        }
+
         return flights;
     }
 

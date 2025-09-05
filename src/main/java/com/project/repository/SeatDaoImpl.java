@@ -8,30 +8,33 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SeatDaoImpl implements SeatDao{
 
     @Override
-    public int save(long flight_id) throws SQLException {
+    public int[] save(long flight_id) throws SQLException {
         Connection con = null;
         PreparedStatement ps = null;
-        String sql = "insert into seats(flight_id, seat_num) values (?, ?);";
-        int result=0;
+        String sql = "insert IGNORE into seats(flight_id, seat_num) values (?, ?);";
+        int[] result;
 
-        for (int i = 1; i <= 42; i++) {
-            try {
-                con = DBManager.getConnection();
-
-                ps = con.prepareStatement(sql);
+        try {
+            con = DBManager.getConnection();
+            ps = con.prepareStatement(sql);
+            for (int i = 1; i <= 30; i++) {
                 ps.setLong(1, flight_id);
                 ps.setLong(2, i);
 
-                result = ps.executeUpdate();
-            } finally {
-                DBManager.releaseConnection(con, ps);
+                ps.addBatch();
             }
+            result = ps.executeBatch();
+
+        } finally {
+            DBManager.releaseConnection(con, ps);
         }
+
 
         return result;
     }

@@ -10,7 +10,7 @@ public interface SeatDao {
     /**
      * flight_id당 10개의 좌석을 저장한다
      */
-    int save(long flight_id) throws SQLException;
+    int[] save(long flight_id) throws SQLException;
 
     /**
      * 선택한 비행기의 좌석을 반환한다.

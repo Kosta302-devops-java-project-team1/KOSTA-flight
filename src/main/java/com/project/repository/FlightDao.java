@@ -10,7 +10,7 @@ public interface FlightDao {
     /**
      * insert flights
      */
-    long saveOrUpdatePrice(Flight flight) throws SQLException;
+    List<Long> saveOrUpdatePrice(List<Flight> flights) throws SQLException;
 
     /**
      * update flights seats count
