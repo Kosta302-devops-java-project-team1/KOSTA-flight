@@ -231,7 +231,7 @@ public class MemberView {
 
     public void test(Member member){
         Flight flight = new Flight();
-        flight.setFlight_id(1);
+        flight.setFlight_id(2);
         flight.setPrice(90600);
         List<Ticket> list = new ArrayList<>();
         for(int i=1; i<=2; i++){

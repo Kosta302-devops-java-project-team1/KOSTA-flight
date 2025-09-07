@@ -4,13 +4,15 @@ import main.java.com.project.dto.Member;
 
 public class Session {
     private String sessionId;
+    private long sessionLongId;
     private Member sessionMember; // 사용자 계정정보 session 저장용
 
     public Session() {
     }
 
-    public Session(String sessionId, Member member) {
-        this.sessionId = sessionId;
+    public Session(Member member) {
+        this.sessionId = member.getEmail();
+        this.sessionLongId = member.getId();
         this.sessionMember = member;
     }
 
@@ -29,6 +31,11 @@ public class Session {
     public void setSessionMember(Member sessionMember) {
         this.sessionMember = sessionMember;
     }
+
+    public long getSessionLongId() {return sessionLongId;}
+
+    public void setSessionLongId(long sessionLongId) {this.sessionLongId = sessionLongId;}
+
 
     @Override
     public String toString() {

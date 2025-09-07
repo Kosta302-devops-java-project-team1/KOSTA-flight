@@ -1,6 +1,7 @@
 package main.java.com.project.service;
 
 import main.java.com.project.common.DBManager;
+import main.java.com.project.common.SessionManger;
 import main.java.com.project.dto.Flight;
 import main.java.com.project.dto.Member;
 import main.java.com.project.dto.Reservation;
@@ -51,12 +52,7 @@ public class ReservationServiceImpl implements ReservationService{
             flightDao.updateSeatCount(con, flight.getFlight_id());
             Member updated = memberDao.updateBalance(con, member);
             if(updated != null){
-                Session session = new Session(member.getEmail(), member);
-                SessionSet ss = SessionSet.getInstance();
-                ss.remove(session);
-                session = new Session(updated.getEmail(), updated);
-                ss.add(session);
-                member.setBalance(updated.getBalance());
+                SessionManger.updateSession(member, updated);
             }
             con.commit();
         } finally {
@@ -84,12 +80,7 @@ public class ReservationServiceImpl implements ReservationService{
             flightDao.updateSeatCount(con, flightId);
             Member updated = memberDao.updateBalance(con, member);
             if(updated != null){
-                Session session = new Session(member.getEmail(), member);
-                SessionSet ss = SessionSet.getInstance();
-                ss.remove(session);
-                session = new Session(updated.getEmail(), updated);
-                ss.add(session);
-                member.setBalance(updated.getBalance());
+                SessionManger.updateSession(member, updated);
             }
             con.commit();
         } finally {

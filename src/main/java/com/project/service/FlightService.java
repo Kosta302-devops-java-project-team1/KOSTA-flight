@@ -30,7 +30,7 @@ public class FlightService {
 
         // flight 객체 저장
         for (FlightOfferSearch offer : offers) {
-            double price = offer.getPrice().getTotal();
+            double price = Double.parseDouble(offer.getPrice().getTotal());
             for (FlightOfferSearch.Itinerary itinerary : offer.getItineraries()) {
                 for (FlightOfferSearch.SearchSegment segment : itinerary.getSegments()) {
                     // flight entity
