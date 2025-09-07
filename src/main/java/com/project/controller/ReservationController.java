@@ -47,7 +47,7 @@ public class ReservationController {
 
     public void deleteReservation(Member admin, Member member, Reservation reservation){
         try {
-            reservationService.cancleReservation(member, reservation);
+            reservationService.cancleReservation(admin, member, reservation);
             SuccessView.printMessage("예약 취소 성공");
         } catch (SQLException | InsufficientBalanceException | MemberNotFoundException e) {
             FailView.errorMessage(e.getMessage());

@@ -91,6 +91,9 @@ public class ReservationServiceImpl implements ReservationService{
 
     @Override
     public boolean cancleReservation(Member admin, Member member, Reservation reservation) throws SQLException, InsufficientBalanceException, MemberNotFoundException {
+        if(!admin.isAdmin()){
+            throw new InsufficientBalanceException("관리자가 아닙니다.");
+        }
         Connection con = null;
         try {
             con = DBManager.getConnection();
