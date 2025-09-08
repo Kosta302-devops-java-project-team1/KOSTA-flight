@@ -19,13 +19,18 @@ public class FlightController {
     public static void flightSearch(String origin, String destination, String departDate, int adults, Member member) {
         try {
             FlightDto flightDto = new FlightDto(origin, destination, departDate, adults);
+            System.out.println("항공사로부터 정보 가져오는 중...");
 
             List<Long> flightIds = flightService.findFlights(flightDto);
-
-            System.out.println("항공사로부터 정보 가져오는 중...");
             FlightSearchSuccessView.printFlightList(flightIds, member, adults);
+            return;
         } catch (ResponseException | SQLException e) {
             FlightSearchFailView.errorMessage("서비스 장애가 발생하였습니다." + e.getMessage());
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
         }
     }
 

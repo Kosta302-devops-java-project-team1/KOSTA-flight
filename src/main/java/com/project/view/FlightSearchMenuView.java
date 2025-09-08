@@ -32,7 +32,8 @@ public class FlightSearchMenuView {
             System.out.print("복귀일> ");
             String returnDate = sc.nextLine();
 
-            FlightController.flightSearch(origin, destination, departDate, adults, returnDate, member);
+            FlightController.flightSearch(origin, destination, departDate, adults, member);
+            FlightController.flightSearch(destination, origin, returnDate, adults, member);
             memberView.run(member);
         } else {
             FlightController.flightSearch(origin, destination, departDate, adults, member);
