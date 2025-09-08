@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ReservationView {
-    private static final MemberView memberView = new MemberView();
     private static final ReservationController reservationController = ReservationController.getInstance();
     private static final Scanner sc = new Scanner(System.in);
 
@@ -38,24 +37,26 @@ public class ReservationView {
             tickets.add(new Ticket(String.valueOf(seats[i]), passengers.get(i).getName(), passengers.get(i).getPhone(), passengers.get(i).getPassportNumber()));
         }
 
-        reservationController.makeReservation(member, flight, tickets);
-        int num = 1;
-        System.out.println("예매 상세 내역");
-        System.out.println(" [이름] |    [전화번호]    |    [여권번호]   | [좌석번호]");
-        for (Ticket ticket : tickets) {
-            System.out.println((num++)+". " + "["+ticket.getPassenger()+"] | [" +
-                    ticket.getPhoneNumber() + "] | [" +
-                    ticket.getPassportNumber() + "] | [" +
-                    ticket.getSeats() + "]");
-        }
+        int result = reservationController.makeReservation(member, flight, tickets);
+        if (result == 1) {
+            int num = 1;
+            System.out.println("예매 상세 내역");
+            System.out.println(" [이름] |    [전화번호]    |    [여권번호]   | [좌석번호]");
+            for (Ticket ticket : tickets) {
+                System.out.println((num++) + ". " + "[" + ticket.getPassenger() + "] | [" +
+                        ticket.getPhoneNumber() + "] | [" +
+                        ticket.getPassportNumber() + "] | [" +
+                        ticket.getSeats() + "]");
+            }
 
-        while (true) {
-            System.out.println("[0] 확인");
-            int input = Integer.parseInt(sc.nextLine());
-            if (input == 0) {
-                memberView.run(member);
-            } else {
-                System.out.println("다시 입력해주세요.");
+            while (true) {
+                System.out.println("[0] 확인");
+                int input = Integer.parseInt(sc.nextLine());
+                if (input == 0) {
+                    return;
+                } else {
+                    System.out.println("다시 입력해주세요.");
+                }
             }
         }
     }
