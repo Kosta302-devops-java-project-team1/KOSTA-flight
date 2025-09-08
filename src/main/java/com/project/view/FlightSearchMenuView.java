@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 public class FlightSearchMenuView {
     private static final Scanner sc = new Scanner(System.in);
+    private static final MemberView memberView = new MemberView();
     public static void search(Member member) {
         // todo 입력 예외처리
         System.out.print("편도:1 | 왕복:2 >");
@@ -32,9 +33,11 @@ public class FlightSearchMenuView {
             String returnDate = sc.nextLine();
             System.out.println("항공사로부터 정보 가져오는 중...");
             FlightController.flightSearch(origin, destination, departDate, adults, returnDate, member);
+            memberView.run(member);
         } else {
             System.out.println("항공사로부터 정보 가져오는 중...");
             FlightController.flightSearch(origin, destination, departDate, adults, member);
+            memberView.run(member);
         }
 
     }
