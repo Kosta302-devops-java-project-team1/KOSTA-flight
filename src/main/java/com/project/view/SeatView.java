@@ -4,6 +4,7 @@ import main.java.com.project.controller.SeatController;
 import main.java.com.project.dto.Flight;
 import main.java.com.project.dto.Seat;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -12,6 +13,25 @@ public class SeatView {
 
     public static String[] selectSeats(Flight flight, String[] seats, int adults) {
         List<Seat> seatsList= SeatController.getSeats(flight.getFlight_id());
+
+        seatsList.sort((s1, s2) -> {
+            String seat1 = s1.getSeat_num();
+            String seat2 = s2.getSeat_num();
+
+            // 1. 알파벳 부분 추출 (A~F)
+            char col1 = seat1.charAt(0);
+            char col2 = seat2.charAt(0);
+
+            // 2. 숫자 부분 추출 (행 번호)
+            int row1 = Integer.parseInt(seat1.substring(1));
+            int row2 = Integer.parseInt(seat2.substring(1));
+
+            // 행(숫자) 기준 먼저 비교 → 같으면 열(알파벳) 비교
+            if (row1 != row2) {
+                return Integer.compare(row1, row2);
+            }
+            return Character.compare(col1, col2);
+        });
 
         int seatsPerRow = 6; // 왼쪽 3 + 오른쪽 3
         int totalRows = seatsList.size() / seatsPerRow;
