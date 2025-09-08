@@ -11,6 +11,7 @@ import main.java.com.project.repository.FlightDaoImpl;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class FlightService {
     private static final FlightDao flightDao = new FlightDaoImpl();
@@ -35,10 +36,16 @@ public class FlightService {
                 for (FlightOfferSearch.SearchSegment segment : itinerary.getSegments()) {
                     // flight entity
                     String departure_airport = segment.getDeparture().getIataCode();
-                    int departure_terminal = Integer.parseInt(segment.getDeparture().getTerminal());
+                    int departure_terminal = Optional.ofNullable(segment.getDeparture().getTerminal())
+                            .filter(s -> !s.isBlank())
+                            .map(Integer::parseInt)
+                            .orElse(1);
                     String departure_time = segment.getDeparture().getAt();
                     String arrival_airport = segment.getArrival().getIataCode();
-                    int arrival_terminal = Integer.parseInt(segment.getArrival().getTerminal());
+                    int arrival_terminal = Optional.ofNullable(segment.getDeparture().getTerminal())
+                            .filter(s -> !s.isBlank())
+                            .map(Integer::parseInt)
+                            .orElse(1);
                     String arrival_time = segment.getArrival().getAt();
                     String duration = segment.getDuration();
                     String airline_name = segment.getCarrierCode();
