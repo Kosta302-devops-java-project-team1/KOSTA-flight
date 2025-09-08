@@ -28,6 +28,7 @@ public class ReservationView {
 
             passengers.add(new PassengerDto(name, phone, passportNumber));
         }
+
         int[] seats = new int[adults];
         seats = SeatView.selectSeats(flight, seats, adults);
 
@@ -40,7 +41,7 @@ public class ReservationView {
         reservationController.makeReservation(member, flight, tickets);
         for (Ticket ticket : tickets) {
             System.out.println("예매 상세 내역");
-            System.out.println(ticket.toString());
+            MemberView
         }
 
         memberView.run(member);

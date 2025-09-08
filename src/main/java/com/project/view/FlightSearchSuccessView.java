@@ -1,5 +1,6 @@
 package main.java.com.project.view;
 
+import main.java.com.project.controller.FlightController;
 import main.java.com.project.dto.Flight;
 import main.java.com.project.dto.Member;
 import main.java.com.project.view.paging.FlightDetailHandler;
@@ -13,21 +14,21 @@ import java.util.Scanner;
 public class FlightSearchSuccessView {
     private static final Scanner sc = new Scanner(System.in);
 
-    public static void printFlightList(List<Flight> flights, Member member, int adults) {
-        sortedPage(flights, member, adults);
-
+    public static void printFlightList(List<Long> flightIds, Member member, int adults) {
+        sortedPage(flightIds, member, adults);
     }
 
-    public static void printFlightList(List<Flight> flights, List<Flight> returnFlights, Member member, int adults) {
-        sortedPage(flights, member, adults);
+    public static void printFlightList(List<Long> flightIds, List<Long> returnFlightIds, Member member, int adults) {
+        sortedPage(flightIds, member, adults);
 
         System.out.println("------------복귀행-------------");
-        sortedPage(returnFlights, member, adults);
+        sortedPage(returnFlightIds, member, adults);
 
     }
 
-    private static void sortedPage(List<Flight> flights, Member member, int adults) {
+    private static void sortedPage(List<Long> flightIds, Member member, int adults) {
         String choice;
+        List<Flight> flights = FlightController.searchFlights(flightIds);
         while (true) {
             System.out.println("정렬 | [1] 가격순 [2] 최단 시간순 [3] 출발 시간순 [4] 도착 시간순 [0] 나가기");
             choice = sc.nextLine();

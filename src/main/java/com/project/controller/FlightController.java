@@ -9,6 +9,7 @@ import main.java.com.project.view.FlightSearchFailView;
 import main.java.com.project.view.FlightSearchSuccessView;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FlightController {
@@ -19,9 +20,9 @@ public class FlightController {
         try {
             FlightDto flightDto = new FlightDto(origin, destination, departDate, adults);
 
-            List<Flight> flights = flightService.findFlights(flightDto);
+            List<Long> flightIds = flightService.findFlights(flightDto);
 
-            FlightSearchSuccessView.printFlightList(flights, member, adults);
+            FlightSearchSuccessView.printFlightList(flightIds, member, adults);
         } catch (ResponseException | SQLException e) {
             FlightSearchFailView.errorMessage("서비스 장애가 발생하였습니다." + e.getMessage());
         }
@@ -33,8 +34,8 @@ public class FlightController {
             FlightDto flightDto = new FlightDto(origin, destination, departDate, adults);
             FlightDto returnFlightDto = new FlightDto(destination, origin, returnDate, adults);
 
-            List<Flight> flights = flightService.findFlights(flightDto);
-            List<Flight> returnFlights = flightService.findFlights(returnFlightDto);
+            List<Long> flights = flightService.findFlights(flightDto);
+            List<Long> returnFlights = flightService.findFlights(returnFlightDto);
 
             FlightSearchSuccessView.printFlightList(flights, returnFlights, member, adults);
 
@@ -51,5 +52,18 @@ public class FlightController {
             FlightSearchFailView.errorMessage("서비스 장애가 발생하였습니다." + e.getMessage());
         }
         return flight;
+    }
+
+    public static List<Flight> searchFlights(List<Long> flightIds) {
+       List<Flight> flights = new ArrayList<>();
+       try {
+           for (long id : flightIds) {
+           flights.add(flightService.findByOneFlightId(id));
+           }
+       } catch (SQLException e) {
+           FlightSearchFailView.errorMessage("불러오는데 실패하였습니다.");
+       }
+
+       return flights;
     }
 }

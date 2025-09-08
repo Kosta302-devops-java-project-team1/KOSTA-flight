@@ -16,7 +16,7 @@ public class FlightService {
     private static final FlightDao flightDao = new FlightDaoImpl();
     private static final SeatService seatService = new SeatServiceImpl();
 
-    public List<Flight> findFlights(FlightDto flightDto) throws ResponseException, SQLException {
+    public List<Long> findFlights(FlightDto flightDto) throws ResponseException, SQLException {
         List<Flight> flights = new ArrayList<>();
 
         // api retrieve
@@ -68,7 +68,7 @@ public class FlightService {
             }
         }
 
-        return flights;
+        return flightIds;
     }
 
     public Flight findByOneFlightId(long flightId) throws SQLException {
