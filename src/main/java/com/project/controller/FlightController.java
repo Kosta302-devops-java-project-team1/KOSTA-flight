@@ -22,6 +22,7 @@ public class FlightController {
 
             List<Long> flightIds = flightService.findFlights(flightDto);
 
+            System.out.println("항공사로부터 정보 가져오는 중...");
             FlightSearchSuccessView.printFlightList(flightIds, member, adults);
         } catch (ResponseException | SQLException e) {
             FlightSearchFailView.errorMessage("서비스 장애가 발생하였습니다." + e.getMessage());
@@ -34,9 +35,11 @@ public class FlightController {
             FlightDto flightDto = new FlightDto(origin, destination, departDate, adults);
             FlightDto returnFlightDto = new FlightDto(destination, origin, returnDate, adults);
 
+            System.out.println("항공사로부터 정보 가져오는 중...");
             List<Long> flightIds = flightService.findFlights(flightDto);
             FlightSearchSuccessView.printFlightList(flightIds, member, adults);
 
+            System.out.println("항공사로부터 정보 가져오는 중...");
             List<Long> returnFlightsIds = flightService.findFlights(returnFlightDto);
             FlightSearchSuccessView.printFlightList(returnFlightsIds, member, adults);
 

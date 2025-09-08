@@ -53,7 +53,6 @@ public class ReservationView {
                 System.out.println("[0] 확인");
                 int input = Integer.parseInt(sc.nextLine());
                 if (input == 0) {
-                    //todo
                     return;
                 } else {
                     System.out.println("다시 입력해주세요.");

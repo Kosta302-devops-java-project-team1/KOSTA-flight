@@ -31,11 +31,10 @@ public class FlightSearchMenuView {
         if (input == 2) {
             System.out.print("복귀일> ");
             String returnDate = sc.nextLine();
-            System.out.println("항공사로부터 정보 가져오는 중...");
+
             FlightController.flightSearch(origin, destination, departDate, adults, returnDate, member);
             memberView.run(member);
         } else {
-            System.out.println("항공사로부터 정보 가져오는 중...");
             FlightController.flightSearch(origin, destination, departDate, adults, member);
             memberView.run(member);
         }

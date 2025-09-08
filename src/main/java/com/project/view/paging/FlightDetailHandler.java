@@ -26,22 +26,22 @@ public class FlightDetailHandler implements DetailViewHandler<Flight> {
                     System.out.println("잘못된 입력입니다.");
                 }
             }
-        }
+        } else {
+            while (true) {
+                System.out.println("\n=== 항공권 상세보기 ===");
+                System.out.println(flight);
 
-        while (true) {
-            System.out.println("\n=== 항공권 상세보기 ===");
-            System.out.println(flight);
+                System.out.println("[1] 예매하기 [0] 이전으로");
+                String input = sc.nextLine();
 
-            System.out.println("[1] 예매하기 [0] 이전으로");
-            String input = sc.nextLine();
-
-            if (input.equals("1")) {
-                ReservationView.reserve(flight, member, adults);
-                return; // 상세보기 종료
-            } else if (input.equals("0")) {
-                return; // 뒤로가기
-            } else {
-                System.out.println("잘못된 입력입니다.");
+                if (input.equals("1")) {
+                    ReservationView.reserve(flight, member, adults);
+                    return; // 상세보기 종료
+                } else if (input.equals("0")) {
+                    return; // 뒤로가기
+                } else {
+                    System.out.println("잘못된 입력입니다.");
+                }
             }
         }
     }
