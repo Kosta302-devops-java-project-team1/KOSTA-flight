@@ -68,6 +68,7 @@ public class MemberServiceImpl implements MemberService{
         SessionManger.logout(member);
     }
 
+
     @Override
     public Member updatePassword(Member member, String password) throws SQLException, MemberNotFoundException {
         Member updated = memberDao.updatePassword(member, password);
