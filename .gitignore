@@ -3,7 +3,7 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 /.idea
-/src/main/java/com/project/common/DBProperties.java
+/src/main/java/com/kostaFlight/common/DBProperties.java
 /resources
 ### Eclipse ###
 .apt_generated
