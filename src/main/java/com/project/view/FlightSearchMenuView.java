@@ -1,5 +1,6 @@
 package main.java.com.project.view;
 
+import main.java.com.project.common.AirportCode;
 import main.java.com.project.controller.FlightController;
 import main.java.com.project.dto.Member;
 
@@ -7,7 +8,6 @@ import java.util.Scanner;
 
 public class FlightSearchMenuView {
     private static final Scanner sc = new Scanner(System.in);
-    private static final MemberView memberView = new MemberView();
     public static void search(Member member) {
         // todo 입력 예외처리
         System.out.print("편도:1 | 왕복:2 >");
@@ -18,11 +18,13 @@ public class FlightSearchMenuView {
         int adults = sc.nextInt();
         sc.nextLine();
 
+        AirportCode.printMenu();
         System.out.print("출발지> ");
-        String origin = sc.nextLine();
+        String origin = AirportCode.getCodeByMenuNumber(Integer.parseInt(sc.nextLine()));
 
+        AirportCode.printMenu();
         System.out.print("도착지> ");
-        String destination = sc.nextLine();
+        String destination = AirportCode.getCodeByMenuNumber(Integer.parseInt(sc.nextLine()));
 
         System.out.print("출발일> ");
         String departDate = sc.nextLine();
