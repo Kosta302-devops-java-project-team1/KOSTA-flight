@@ -21,19 +21,17 @@ public class AdminView {
         while(true){
             commonView.run();
             System.out.println("-----관리자모드-----");
-            System.out.println("[1]항공편 관리 [2]예약 조회/관리 [3]이벤트 조회/관리 [4]로그아웃");
+            System.out.println("[1]예약 조회/관리 [2]이벤트 조회/관리 [3]로그아웃");
             System.out.println("---------------------------------");
             String menu = sc.nextLine();
             switch (menu){
                 case "1" :
-                    break;
-                case "2" :
                     viewReservation(member);
                     break;
-                case "3" :
+                case "2" :
                     viewEvent(member);
                     break;
-                case "4" :
+                case "3" :
                     commonView.logoutView(member);
                     return;
             }
