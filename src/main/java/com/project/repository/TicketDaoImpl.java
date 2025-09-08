@@ -96,7 +96,6 @@ public class TicketDaoImpl implements TicketDao{
         PreparedStatement ps = null;
         ResultSet rs = null;
         List<Ticket> ticketList = new ArrayList<>();
-        System.out.println(reservationId);
         String sql = "select * from tickets where reservation_id = ?";
 
         try {

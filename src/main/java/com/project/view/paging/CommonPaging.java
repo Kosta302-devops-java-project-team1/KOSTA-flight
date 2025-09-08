@@ -22,14 +22,26 @@ public class CommonPaging {
             case "event" :
                 for (int i = start; i < end; i++) {
                     Board board = (Board) list.get(i);
-                    System.out.println(number + ". ["+ board.getId()+"] ["+board.getContent()+"] [" + board.getEventEndAt() + "]" );
+
+                    // content를 20글자까지만 자르고 초과하면 "..." 붙임
+                    String content = board.getContent();
+                    if (content.length() > 20) {
+                        content = content.substring(0, 17) + "...";
+                    }
+
+                    System.out.printf("%-3d [%-3d] %-20s %-19s%n",
+                            number,
+                            board.getId(),
+                            content,
+                            board.getEventEndAt()
+                    );
                     number++;
                 }
                 break;
             case "reservation" :
                 for (int i = start; i < end; i++) {
                     Reservation reservation = (Reservation) list.get(i);
-                    System.out.println(number+". 예매번호 : "+reservation.getReservationId()+" | 예매시간 : "+
+                    System.out.println(number+". 예매번호 : "+reservation.getReservationId()+"\t | 예매시간 : "+
                             reservation.getCreatedAt());
                     number++;
                 }
@@ -37,7 +49,7 @@ public class CommonPaging {
             case "chargeDetail" :
                 for (int i = start; i < end; i++){
                     CreditHistory creditHistory = (CreditHistory) list.get(i);
-                    System.out.println("충전금액 : " + creditHistory.getAmount() + " | 충전시간 : " + creditHistory.getCreatedAt());
+                    System.out.println("충전금액 : " + creditHistory.getAmount() + "\t | 충전시간 : " + creditHistory.getCreatedAt());
                 }
                 break;
         }

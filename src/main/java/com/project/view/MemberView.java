@@ -22,6 +22,12 @@ public class MemberView {
     public void run(Member member){
         while(true){
             commonView.run();
+            if (member == null){
+                return;
+            }
+            if(SessionManger.getMember(member.getId()) == null){
+                return;
+            }
             System.out.println("-----"+member.getEmail()+"-----");
             System.out.println("[1]항공편 검색 [2]개인정보수정 [3]예매내역확인 [4]크레딧 [5]로그아웃");
             System.out.println("---------------------------------");
@@ -42,12 +48,6 @@ public class MemberView {
                 case "5" :
                     logoutView(member);
                     break;
-            }
-            if(member == null){
-                return;
-            }
-            if(SessionManger.getMember(member.getId()) == null){
-                return;
             }
         }
     }

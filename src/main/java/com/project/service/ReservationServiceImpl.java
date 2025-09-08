@@ -39,7 +39,6 @@ public class ReservationServiceImpl implements ReservationService{
             con.setAutoCommit(false);
             int count = tickets.size();
             int totalAmount = (int)Math.round(flight.getPrice()) * count;
-            member.setBalance(-totalAmount);
             long reservationId = reservationDao.insertReservation(con, member.getId(), count, totalAmount);
             for(Ticket t : tickets){
                 t.setReservationId(reservationId);
@@ -50,7 +49,10 @@ public class ReservationServiceImpl implements ReservationService{
                 seatDao.update(con, t.getFlightId(), t.getSeats(), 0);
             }
             flightDao.updateSeatCount(con, flight.getFlight_id());
-            Member updated = memberDao.updateBalance(con, member);
+            Member balance = new Member();
+            balance.setId(member.getId());
+            balance.setBalance(-totalAmount);
+            Member updated = memberDao.updateBalance(con, balance);
             if(updated != null){
                 SessionManger.updateSession(member, updated);
             }
@@ -82,7 +84,6 @@ public class ReservationServiceImpl implements ReservationService{
             con.setAutoCommit(false);
             List<Ticket> ticketList = ticketDao.selectByReservationId(con, reservation.getReservationId());
             Ticket ticket = ticketList.get(0);
-            member.setBalance(reservation.getTotal_amount());
             long flightId = ticket.getFlightId();
             ticketDao.deleteTicket(con, reservation.getReservationId());
             reservationDao.deleteReservation(con, reservation.getReservationId());
@@ -90,7 +91,10 @@ public class ReservationServiceImpl implements ReservationService{
                 seatDao.update(con, flightId, t.getSeats(), 1);
             }
             flightDao.updateSeatCount(con, flightId);
-            Member updated = memberDao.updateBalance(con, member);
+            Member balance = new Member();
+            balance.setId(member.getId());
+            balance.setBalance(reservation.getTotal_amount());
+            Member updated = memberDao.updateBalance(con, balance);
             if(updated != null && !member.isAdmin()){
                 SessionManger.updateSession(member, updated);
             }
