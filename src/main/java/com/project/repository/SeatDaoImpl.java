@@ -20,14 +20,22 @@ public class SeatDaoImpl implements SeatDao{
         String sql = "insert IGNORE into seats(flight_id, seat_num) values (?, ?);";
         int[] result;
 
+        int totalSeatCount = 30;
+        char[] seatCols = {'A', 'B', 'C', 'D', 'E', 'F'};
+        int totalRows = totalSeatCount / 6; // 행 수
+
         try {
             con = DBManager.getConnection();
             ps = con.prepareStatement(sql);
-            for (int i = 1; i <= 30; i++) {
-                ps.setLong(1, flight_id);
-                ps.setLong(2, i);
+            for (int row = 1; row <= totalRows; row++) {       // 1행 ~ 30행
+                for (char col : seatCols) {                   // A ~ F
+                    String seatNum = col + String.valueOf(row);
 
-                ps.addBatch();
+                    ps.setLong(1, flight_id);
+                    ps.setString(2, seatNum);
+
+                    ps.addBatch();
+                }
             }
             result = ps.executeBatch();
 
