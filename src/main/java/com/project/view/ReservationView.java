@@ -29,7 +29,7 @@ public class ReservationView {
             passengers.add(new PassengerDto(name, phone, passportNumber));
         }
 
-        int[] seats = new int[adults];
+        String[] seats = new String[adults];
         seats = SeatView.selectSeats(flight, seats, adults);
 
 
@@ -39,11 +39,24 @@ public class ReservationView {
         }
 
         reservationController.makeReservation(member, flight, tickets);
+        int num = 1;
+        System.out.println("예매 상세 내역");
+        System.out.println(" [이름] |    [전화번호]    |    [여권번호]   | [좌석번호]");
         for (Ticket ticket : tickets) {
-            System.out.println("예매 상세 내역");
-            MemberView
+            System.out.println((num++)+". " + "["+ticket.getPassenger()+"] | [" +
+                    ticket.getPhoneNumber() + "] | [" +
+                    ticket.getPassportNumber() + "] | [" +
+                    ticket.getSeats() + "]");
         }
 
-        memberView.run(member);
+        while (true) {
+            System.out.println("[0] 확인");
+            int input = Integer.parseInt(sc.nextLine());
+            if (input == 0) {
+                memberView.run(member);
+            } else {
+                System.out.println("다시 입력해주세요.");
+            }
+        }
     }
 }
