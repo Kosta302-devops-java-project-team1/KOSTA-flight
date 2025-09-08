@@ -30,7 +30,6 @@ public class ReservationController {
             reservationService.makeReservation(member, flight, tickets);
             SuccessView.printMessage(member.getEmail()+"님 "+flight.getFlight_id()+"편 "+tickets.size()+"장 예매완료");
         } catch (SQLException | InsufficientBalanceException | MemberNotFoundException e) {
-            e.printStackTrace();
             FailView.errorMessage(e.getMessage());
         }
     }

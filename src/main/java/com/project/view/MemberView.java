@@ -6,11 +6,9 @@ import main.java.com.project.controller.FlightController;
 import main.java.com.project.controller.MemberController;
 import main.java.com.project.controller.ReservationController;
 import main.java.com.project.dto.*;
-import main.java.com.project.session.Session;
-import main.java.com.project.session.SessionSet;
+
 import main.java.com.project.view.paging.CommonPaging;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -45,6 +43,9 @@ public class MemberView {
                     logoutView(member);
                     break;
             }
+            if(member == null){
+                return;
+            }
             if(SessionManger.getMember(member.getId()) == null){
                 return;
             }
@@ -70,10 +71,11 @@ public class MemberView {
             System.out.println("비밀번호가 맞지 않음");
         }
         System.out.println("변경할 비밀번호를 입력");
-        System.out.println("0.뒤로가기");
+        System.out.println("[0]뒤로가기");
         System.out.print(">");
         String password = passwordChk(); //비밀번호가 4자리 이상일때 password로 받아옴
-        if(member.getPassword().equals(password)){
+
+        if(member.getPassword().equals(password) || password.equals("0")){
             return member;
         }
         Member updated = memberController.updatePassword(member, password);// 실제 패스워드 수정후 member객체 받아옴
@@ -82,7 +84,7 @@ public class MemberView {
     public Member checkBalance(Member member){
         System.out.println("현재 크레딧");
         System.out.println(">" + member.getBalance());
-        System.out.println("[1] 충전 [2] 충전내역확인 [9] 뒤로가기");
+        System.out.println("[1]충전 [2]충전내역확인 [9]뒤로가기");
         while(true){
             String menu = sc.nextLine();
             if(menu.equals("1")){
@@ -118,7 +120,7 @@ public class MemberView {
         int lastPage = (creditHistories.size() / PAGESIZE);
         while(true){
             CommonPaging.paging(PAGESIZE, currentPage, creditHistories, "chargeDetail");
-            System.out.println("\n메뉴: [0] 이전페이지 [6] 다음페이지 [9] 이전메뉴");
+            System.out.println("\n메뉴: [0]이전페이지 [6]다음페이지 [9]이전메뉴");
             String menu = sc.nextLine();
             switch (menu) {
                 case "6":
@@ -149,7 +151,7 @@ public class MemberView {
         int lastPage = (reservationList.size() / PAGESIZE);
         while (true){
             CommonPaging.paging(PAGESIZE, currentPage, reservationList, "reservation");
-            System.out.println("\n메뉴: [0] 이전페이지 [1~5] 상세보기 [6] 다음페이지 [9] 이전메뉴");
+            System.out.println("\n메뉴: [0]이전페이지 [1~5]상세보기 [6]다음페이지 [9]이전메뉴");
             String menu = sc.nextLine();
             int number = 0;
             switch (menu) {
@@ -200,7 +202,7 @@ public class MemberView {
         System.out.println("결제가격 : " + reservation.getTotal_amount());
         System.out.println("-------------------------------------");
         while(true){
-            System.out.println("[0] 뒤로가기 [1] 예약취소");
+            System.out.println("[0]뒤로가기 [1]예약취소");
             String menu = sc.nextLine();
             switch (menu) {
                 case "0" :
