@@ -4,7 +4,9 @@ import main.java.com.kostaFlight.controller.SeatController;
 import main.java.com.kostaFlight.dto.Flight;
 import main.java.com.kostaFlight.dto.Seat;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class SeatView {
@@ -43,6 +45,8 @@ public class SeatView {
         }
         System.out.println();
 
+
+
         for (int row = 0; row < totalRows; row++) {
             // 왼쪽 행 번호 출력 (1부터 시작)
             System.out.printf("%2d ", row + 1);
@@ -61,8 +65,19 @@ public class SeatView {
         System.out.println();
 
         for (int i = 0; i < adults; i++) {
-            System.out.println((i + 1) + "번째 탑승자 좌석을 선택하세요.");
-            seats[i] = sc.nextLine();
+            while (true) {
+                System.out.println((i + 1) + "번째 탑승자 좌석을 선택하세요.");
+                String seat = sc.nextLine();
+                Optional<Seat> selected = seatsList.stream()
+                        .filter(s -> s.getSeat_num().equalsIgnoreCase(seat) && s.getIs_available() == 1)
+                        .findFirst();
+                if (selected.isPresent()){
+                    seats[i] = seat;
+                    break;
+                } else {
+                    System.out.println("다른 좌석을 선택해 주세요.");
+                }
+            }
         }
         return seats;
     }
