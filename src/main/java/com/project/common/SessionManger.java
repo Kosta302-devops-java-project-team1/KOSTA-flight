@@ -28,6 +28,9 @@ public class SessionManger {
 
     public static Member getMember(long id){
         Session session = sessionSet.getById(id);
+        if(session == null){
+            return null;
+        }
         return session.getSessionMember();
     }
 
