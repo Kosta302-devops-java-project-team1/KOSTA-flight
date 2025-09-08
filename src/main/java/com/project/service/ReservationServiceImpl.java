@@ -63,7 +63,19 @@ public class ReservationServiceImpl implements ReservationService{
     }
 
     @Override
-    public boolean cancleReservation(Member member, Reservation reservation) throws SQLException, InsufficientBalanceException, MemberNotFoundException {
+    public boolean cancelReservation(Member member, Reservation reservation) throws SQLException, InsufficientBalanceException, MemberNotFoundException {
+        return cancelReservationInternal(member, reservation);
+    }
+
+    @Override
+    public boolean cancelReservation(Member admin, Member member, Reservation reservation) throws SQLException, AccessDeniedException, InsufficientBalanceException, MemberNotFoundException {
+        if(!admin.isAdmin()){
+            throw new AccessDeniedException("관리자가 아닙니다.");
+        }
+        return cancelReservationInternal(member, reservation);
+    }
+
+    private boolean cancelReservationInternal(Member member, Reservation reservation) throws SQLException, InsufficientBalanceException, MemberNotFoundException{
         Connection con = null;
         try {
             con = DBManager.getConnection();
@@ -79,36 +91,9 @@ public class ReservationServiceImpl implements ReservationService{
             }
             flightDao.updateSeatCount(con, flightId);
             Member updated = memberDao.updateBalance(con, member);
-            if(updated != null){
+            if(updated != null && !member.isAdmin()){
                 SessionManger.updateSession(member, updated);
             }
-            con.commit();
-        } finally {
-            DBManager.releaseConnection(con, null);
-        }
-        return true;
-    }
-
-    @Override
-    public boolean cancleReservation(Member admin, Member member, Reservation reservation) throws SQLException, InsufficientBalanceException, MemberNotFoundException {
-        if(!admin.isAdmin()){
-            throw new InsufficientBalanceException("관리자가 아닙니다.");
-        }
-        Connection con = null;
-        try {
-            con = DBManager.getConnection();
-            con.setAutoCommit(false);
-            List<Ticket> ticketList = ticketDao.selectByReservationId(con, reservation.getReservationId());
-            Ticket ticket = ticketList.get(0);
-            member.setBalance(reservation.getTotal_amount());
-            long flightId = ticket.getFlightId();
-            ticketDao.deleteTicket(con, reservation.getReservationId());
-            reservationDao.deleteReservation(con, reservation.getReservationId());
-            for(Ticket t : ticketList){
-                seatDao.update(con, flightId, t.getSeats(), 1);
-            }
-            flightDao.updateSeatCount(con, flightId);
-            memberDao.updateBalance(con, member);
             con.commit();
         } finally {
             DBManager.releaseConnection(con, null);

@@ -37,7 +37,7 @@ public class ReservationController {
 
     public void deleteReservation(Member member, Reservation reservation){
         try {
-            reservationService.cancleReservation(member, reservation);
+            reservationService.cancelReservation(member, reservation);
             SuccessView.printMessage("예약 취소 성공");
         } catch (SQLException | InsufficientBalanceException | MemberNotFoundException e) {
             FailView.errorMessage(e.getMessage());
@@ -47,9 +47,9 @@ public class ReservationController {
 
     public void deleteReservation(Member admin, Member member, Reservation reservation){
         try {
-            reservationService.cancleReservation(admin, member, reservation);
+            reservationService.cancelReservation(admin, member, reservation);
             SuccessView.printMessage("예약 취소 성공");
-        } catch (SQLException | InsufficientBalanceException | MemberNotFoundException e) {
+        } catch (SQLException | InsufficientBalanceException | MemberNotFoundException | AccessDeniedException e) {
             FailView.errorMessage(e.getMessage());
             throw new RuntimeException(e);
         }
