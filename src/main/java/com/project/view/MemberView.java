@@ -191,8 +191,8 @@ public class MemberView {
         Flight flight = FlightController.searchOneFlight(ticket.getFlightId());
         System.out.println("예매번호 : " + reservation.getReservationId());
         System.out.println("예매시간 : " + reservation.getCreatedAt());
-        System.out.println("출발 : (" + flight.getDeparture_airport() + ") " + flight.getDeparture_time() +
-                " -> 도착 : (" + flight.getArrival_airport() + ") " + flight.getArrival_time());
+        System.out.println("출발 : (" + AirportCode.valueOf(flight.getDeparture_airport()).getName()+ ") " + flight.getDeparture_time() +
+                " -> 도착 : (" + AirportCode.valueOf(flight.getArrival_airport()).getName() + ") " + flight.getArrival_time());
         for(int i=0;i < tickets.size();i++){
             System.out.println((i+1)+". " + "["+tickets.get(i).getPassenger()+"] | [" +
                     tickets.get(i).getPhoneNumber() + "] | [" +

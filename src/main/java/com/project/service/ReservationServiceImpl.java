@@ -130,7 +130,6 @@ public class ReservationServiceImpl implements ReservationService{
 
     @Override
     public List<Ticket> selectMemberTicket(long reservationId) throws SQLException {
-        System.out.println(reservationId);
         return ticketDao.selectByReservationId(reservationId);
     }
 
