@@ -53,6 +53,7 @@ public class ReservationServiceImpl implements ReservationService{
             Member updated = memberDao.updateBalance(con, balance);
             if(updated != null){
                 SessionManger.updateSession(member, updated);
+                member.setBalance(updated.getBalance());
             }
             con.commit();
         } finally {
@@ -95,6 +96,7 @@ public class ReservationServiceImpl implements ReservationService{
             Member updated = memberDao.updateBalance(con, balance);
             if(updated != null && !member.isAdmin()){
                 SessionManger.updateSession(member, updated);
+                member.setBalance(updated.getBalance());
             }
             con.commit();
         } finally {

@@ -27,9 +27,10 @@ public class MemberView {
             if(SessionManger.getMember(member.getId()) == null){
                 return;
             }
-            System.out.println("-----"+member.getEmail()+"-----");
+            String title = member.getEmail()+"-----------------------------------------------------------------------";
+            System.out.println(title.substring(0, 64));
             System.out.println("[1]항공편 검색 [2]개인정보수정 [3]예매내역확인 [4]크레딧 [5]로그아웃");
-            System.out.println("---------------------------------");
+            System.out.println("----------------------------------------------------------------");
             String menu = sc.nextLine();
             switch (menu){
                 case "1" :
