@@ -1,2 +1,4 @@
-# java-project
+# KOSTA-flight
+코스타 항공권
 항공권 예매 콘솔 프로젝트
+1조 | 박민용 | 최동해 |
