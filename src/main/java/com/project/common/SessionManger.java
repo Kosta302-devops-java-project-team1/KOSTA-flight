@@ -26,5 +26,10 @@ public class SessionManger {
         sessionSet.remove(session);
     }
 
+    public static Member getMember(long id){
+        Session session = sessionSet.getById(id);
+        return session.getSessionMember();
+    }
+
 
 }

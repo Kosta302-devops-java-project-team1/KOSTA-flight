@@ -22,7 +22,7 @@ public class MenuView {
         while(true){
             commonView.run();
             System.out.println("---------------------------------");
-            System.out.println("1. 항공편검색\t2.로그인\t3.회원가입\t9.종료");
+            System.out.println("[1]항공편검색 [2]로그인 [3]회원가입 [9]종료");
             System.out.println("---------------------------------");
             String menu = sc.nextLine();
             switch (menu){
@@ -62,9 +62,9 @@ public class MenuView {
     }
 
     public void loginView(){
-        System.out.println("이메일 : ");
+        System.out.print("이메일 : ");
         String email = sc.nextLine();
-        System.out.println("비밀번호 : ");
+        System.out.print("비밀번호 : ");
         String password = sc.nextLine();
         Member member = new Member(email, password);
         Member login = memberController.login(member);

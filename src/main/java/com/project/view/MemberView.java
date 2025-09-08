@@ -1,5 +1,7 @@
 package main.java.com.project.view;
 
+import main.java.com.project.common.AirportCode;
+import main.java.com.project.common.SessionManger;
 import main.java.com.project.controller.FlightController;
 import main.java.com.project.controller.MemberController;
 import main.java.com.project.controller.ReservationController;
@@ -23,12 +25,12 @@ public class MemberView {
         while(true){
             commonView.run();
             System.out.println("-----"+member.getEmail()+"-----");
-            System.out.println("1.항공편 검색\t2.개인정보수정\t3.예매내역확인\t4.크레딧\t5.로그아웃");
+            System.out.println("[1]항공편 검색 [2]개인정보수정 [3]예매내역확인 [4]크레딧 [5]로그아웃");
             System.out.println("---------------------------------");
             String menu = sc.nextLine();
             switch (menu){
                 case "1" :
-                    test(member); //todo
+                    testPrint();
                     break;
                 case "2" :
                     member = updatePassword(member);
@@ -41,7 +43,10 @@ public class MemberView {
                     break;
                 case "5" :
                     logoutView(member);
-                    return;
+                    break;
+            }
+            if(SessionManger.getMember(member.getId()) == null){
+                return;
             }
         }
     }
@@ -57,7 +62,7 @@ public class MemberView {
             System.out.print(">");
             String currentPassword = sc.nextLine();
             if(currentPassword.equals("0")){
-                return null;
+                return member;
             }
             if(memberController.passwordChk(member, currentPassword)){ //현재 패스워드가 맞는지 체크 후 맞으면 break
                 break;
@@ -68,6 +73,9 @@ public class MemberView {
         System.out.println("0.뒤로가기");
         System.out.print(">");
         String password = passwordChk(); //비밀번호가 4자리 이상일때 password로 받아옴
+        if(member.getPassword().equals(password)){
+            return member;
+        }
         Member updated = memberController.updatePassword(member, password);// 실제 패스워드 수정후 member객체 받아옴
         return updated;
     }
@@ -247,4 +255,8 @@ public class MemberView {
         reservation.setTotal_amount(181200);
         reservationController.deleteReservation(member, reservation);
     }
+    public void testPrint(){
+        AirportCode.printMenu();
+    }
+
 }
