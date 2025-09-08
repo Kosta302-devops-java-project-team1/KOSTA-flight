@@ -14,9 +14,9 @@ import java.util.List;
 public interface ReservationService {
     boolean makeReservation(Member member, Flight flight, List<Ticket> tickets) throws SQLException, InsufficientBalanceException, MemberNotFoundException;
 
-    boolean cancleReservation(Member member, Reservation reservation) throws SQLException, InsufficientBalanceException, MemberNotFoundException;
+    boolean cancelReservation(Member member, Reservation reservation) throws SQLException, InsufficientBalanceException, MemberNotFoundException;
 
-    boolean cancleReservation(Member admin, Member member, Reservation reservation) throws SQLException, InsufficientBalanceException, MemberNotFoundException;
+    boolean cancelReservation(Member admin, Member member, Reservation reservation) throws SQLException, InsufficientBalanceException, MemberNotFoundException, AccessDeniedException;
 
     List<Reservation> selectAllReservation(Member member) throws SQLException, AccessDeniedException;
 

@@ -24,6 +24,15 @@ public class SessionSet {
         return null;
     }
 
+    public Session getById(long id){
+        for(Session session : set){
+            if(session.getSessionLongId() == id){
+                return session;
+            }
+        }
+        return null;
+    }
+
     public Set<Session> getSet() {
         return set;
     }

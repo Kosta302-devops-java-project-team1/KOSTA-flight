@@ -1,6 +1,7 @@
 package main.java.com.project.service;
 
 import main.java.com.project.common.DBManager;
+import main.java.com.project.common.SessionManger;
 import main.java.com.project.dto.Flight;
 import main.java.com.project.dto.Member;
 import main.java.com.project.dto.Reservation;
@@ -51,12 +52,7 @@ public class ReservationServiceImpl implements ReservationService{
             flightDao.updateSeatCount(con, flight.getFlight_id());
             Member updated = memberDao.updateBalance(con, member);
             if(updated != null){
-                Session session = new Session(member.getEmail(), member);
-                SessionSet ss = SessionSet.getInstance();
-                ss.remove(session);
-                session = new Session(updated.getEmail(), updated);
-                ss.add(session);
-                member.setBalance(updated.getBalance());
+                SessionManger.updateSession(member, updated);
             }
             con.commit();
         } finally {
@@ -67,7 +63,19 @@ public class ReservationServiceImpl implements ReservationService{
     }
 
     @Override
-    public boolean cancleReservation(Member member, Reservation reservation) throws SQLException, InsufficientBalanceException, MemberNotFoundException {
+    public boolean cancelReservation(Member member, Reservation reservation) throws SQLException, InsufficientBalanceException, MemberNotFoundException {
+        return cancelReservationInternal(member, reservation);
+    }
+
+    @Override
+    public boolean cancelReservation(Member admin, Member member, Reservation reservation) throws SQLException, AccessDeniedException, InsufficientBalanceException, MemberNotFoundException {
+        if(!admin.isAdmin()){
+            throw new AccessDeniedException("관리자가 아닙니다.");
+        }
+        return cancelReservationInternal(member, reservation);
+    }
+
+    private boolean cancelReservationInternal(Member member, Reservation reservation) throws SQLException, InsufficientBalanceException, MemberNotFoundException{
         Connection con = null;
         try {
             con = DBManager.getConnection();
@@ -83,38 +91,9 @@ public class ReservationServiceImpl implements ReservationService{
             }
             flightDao.updateSeatCount(con, flightId);
             Member updated = memberDao.updateBalance(con, member);
-            if(updated != null){
-                Session session = new Session(member.getEmail(), member);
-                SessionSet ss = SessionSet.getInstance();
-                ss.remove(session);
-                session = new Session(updated.getEmail(), updated);
-                ss.add(session);
-                member.setBalance(updated.getBalance());
+            if(updated != null && !member.isAdmin()){
+                SessionManger.updateSession(member, updated);
             }
-            con.commit();
-        } finally {
-            DBManager.releaseConnection(con, null);
-        }
-        return true;
-    }
-
-    @Override
-    public boolean cancleReservation(Member admin, Member member, Reservation reservation) throws SQLException, InsufficientBalanceException, MemberNotFoundException {
-        Connection con = null;
-        try {
-            con = DBManager.getConnection();
-            con.setAutoCommit(false);
-            List<Ticket> ticketList = ticketDao.selectByReservationId(con, reservation.getReservationId());
-            Ticket ticket = ticketList.get(0);
-            member.setBalance(reservation.getTotal_amount());
-            long flightId = ticket.getFlightId();
-            ticketDao.deleteTicket(con, reservation.getReservationId());
-            reservationDao.deleteReservation(con, reservation.getReservationId());
-            for(Ticket t : ticketList){
-                seatDao.update(con, flightId, t.getSeats(), 1);
-            }
-            flightDao.updateSeatCount(con, flightId);
-            memberDao.updateBalance(con, member);
             con.commit();
         } finally {
             DBManager.releaseConnection(con, null);
