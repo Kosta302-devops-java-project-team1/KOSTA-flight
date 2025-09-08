@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface MemberService {
+    Member findById(long memberId) throws SQLException;
+
     void registerMember(Member member) throws SQLException, EmailDuplicateException;
 
     /**

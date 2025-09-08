@@ -22,6 +22,8 @@ public interface MemberDao {
      */
     Member findByEmail(String email) throws SQLException;
 
+    Member findById(long memberId) throws SQLException;
+
     /**
      * select * from members where email = ? and password = ?
      * @param member

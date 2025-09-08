@@ -82,6 +82,9 @@ public class ReservationDaoImpl implements ReservationDao{
                         rs.getInt("total_amount"),
                         rs.getString("created_at")));
             }
+            for(Reservation r : reservationList){
+                System.out.println(r.getReservationId());
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {

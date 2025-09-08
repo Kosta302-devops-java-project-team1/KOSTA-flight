@@ -13,7 +13,7 @@ public class CommonPaging {
         int pageSize = size;
         int currentPage = page;
         int totalPages = (int) Math.ceil((double) list.size() / pageSize);
-
+        int number = 1;
 
         int start = currentPage * pageSize;
         int end = Math.min(start + pageSize, list.size());
@@ -22,11 +22,11 @@ public class CommonPaging {
             case "event" :
                 for (int i = start; i < end; i++) {
                     Board board = (Board) list.get(i);
-                    System.out.println(board.getId() + ". " + "["+board.getContent()+"] [" + board.getEventEndAt() + "]" );
+                    System.out.println(number + ". ["+ board.getId()+"] ["+board.getContent()+"] [" + board.getEventEndAt() + "]" );
+                    number++;
                 }
                 break;
             case "reservation" :
-                int number = 1;
                 for (int i = start; i < end; i++) {
                     Reservation reservation = (Reservation) list.get(i);
                     System.out.println(number+". 예매번호 : "+reservation.getReservationId()+" | 예매시간 : "+

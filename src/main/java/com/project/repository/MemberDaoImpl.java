@@ -62,6 +62,34 @@ public class MemberDaoImpl implements MemberDao {
     }
 
     @Override
+    public Member findById(long memberId) throws SQLException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Member member = null;
+        String sql = "select * from members where member_id = ?";
+        try {
+            con = DBManager.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setLong(1, memberId);
+            rs = ps.executeQuery();
+            if(rs.next()){
+                member = new Member(rs.getLong("member_id"),
+                        rs.getString("email"),
+                        rs.getString("password"),
+                        rs.getString("created_at"),
+                        rs.getLong("balance"),
+                        (rs.getInt("is_admin") != 0));
+            }
+        } catch (SQLException e) {
+            throw new SQLException("db오류");
+        } finally {
+            DBManager.releaseConnection(con, ps, rs);
+        }
+        return member;
+    }
+
+    @Override
     public Member login(Member member) throws SQLException{
         Connection con = null;
         PreparedStatement ps = null;

@@ -23,6 +23,16 @@ public class MemberController {
         return instance;
     }
 
+    public Member searchMemberById(long memberId){
+        Member member = null;
+        try {
+            member = memberService.findById(memberId);
+        } catch (SQLException e) {
+            FailView.errorMessage(e.getMessage());
+        }
+        return member;
+    }
+
     public void registerMember(Member member){
         try {
             memberService.registerMember(member);

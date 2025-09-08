@@ -25,7 +25,6 @@ public class TicketDaoImpl implements TicketDao{
                 ps.setString(4, t.getPassenger());
                 ps.setString(5, t.getPhoneNumber());
                 ps.setString(6, t.getPassportNumber());
-
                 ps.addBatch();
             }
 
@@ -97,6 +96,7 @@ public class TicketDaoImpl implements TicketDao{
         PreparedStatement ps = null;
         ResultSet rs = null;
         List<Ticket> ticketList = new ArrayList<>();
+        System.out.println(reservationId);
         String sql = "select * from tickets where reservation_id = ?";
 
         try {

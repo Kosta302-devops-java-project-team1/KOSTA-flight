@@ -27,6 +27,11 @@ public class MemberServiceImpl implements MemberService{
 
 
     @Override
+    public Member findById(long memberId) throws SQLException {
+        return memberDao.findById(memberId);
+    }
+
+    @Override
     public void registerMember(Member member) throws SQLException, EmailDuplicateException {
         int result = memberDao.registerMember(member);
         if(result == 0){

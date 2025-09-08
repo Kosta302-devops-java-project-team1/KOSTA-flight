@@ -16,6 +16,8 @@ public interface ReservationService {
 
     boolean cancleReservation(Member member, Reservation reservation) throws SQLException, InsufficientBalanceException, MemberNotFoundException;
 
+    boolean cancleReservation(Member admin, Member member, Reservation reservation) throws SQLException, InsufficientBalanceException, MemberNotFoundException;
+
     List<Reservation> selectAllReservation(Member member) throws SQLException, AccessDeniedException;
 
     List<Reservation> selectMemberReservation(long memberId) throws SQLException;
