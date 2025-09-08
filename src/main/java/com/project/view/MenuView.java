@@ -27,7 +27,7 @@ public class MenuView {
             String menu = sc.nextLine();
             switch (menu){
                 case "1" :
-                    FlightSearchMenuView.search();
+                    FlightSearchMenuView.search(null);
                     break;
                 case "2" :
                     loginView();

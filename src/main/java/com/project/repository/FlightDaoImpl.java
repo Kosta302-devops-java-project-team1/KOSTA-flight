@@ -9,34 +9,37 @@ import java.util.List;
 
 public class FlightDaoImpl implements FlightDao{
     @Override
-    public long saveOrUpdatePrice(Flight flight) throws SQLException {
+    public List<Long> saveOrUpdatePrice(List<Flight> flights) throws SQLException {
         Connection con=null;
         PreparedStatement ps=null;
         String sql="INSERT INTO flights(airline_name, departure_airport, departure_terminal, departure_time, arrival_airport, arrival_terminal, arrival_time, duration, price)" +
                 "  VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)" +
                 " ON DUPLICATE KEY UPDATE price = VALUES(price), flight_id = LAST_INSERT_ID(flight_id);";
 
-        int result=0;
+        List<Long> generatedIds = new ArrayList<>();
+
         try {
             con = DBManager.getConnection();
-
             ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, flight.getAirline_name());
-            ps.setString(2, flight.getDeparture_airport());
-            ps.setInt(3, flight.getDeparture_terminal());
-            ps.setString(4, flight.getDeparture_time());
-            ps.setString(5, flight.getArrival_airport());
-            ps.setInt(6, flight.getArrival_terminal());
-            ps.setString(7, flight.getArrival_time());
-            ps.setString(8, flight.getDuration());
-            ps.setDouble(9, flight.getPrice());
 
-            result = ps.executeUpdate();
-            //todo batch로 여러정보저장
+            for (Flight flight : flights) {
+                ps.setString(1, flight.getAirline_name());
+                ps.setString(2, flight.getDeparture_airport());
+                ps.setInt(3, flight.getDeparture_terminal());
+                ps.setString(4, flight.getDeparture_time());
+                ps.setString(5, flight.getArrival_airport());
+                ps.setInt(6, flight.getArrival_terminal());
+                ps.setString(7, flight.getArrival_time());
+                ps.setString(8, flight.getDuration());
+                ps.setDouble(9, flight.getPrice());
+
+                ps.addBatch();
+            }
+            ps.executeBatch();
 
             try (ResultSet rs = ps.getGeneratedKeys()) {
-                if (rs.next()) {
-                    return rs.getLong(1); // flight_id 반환
+                while (rs.next()) {
+                    generatedIds.add(rs.getLong(1)); // flight_id 반환
                 }
             }
 
@@ -44,7 +47,7 @@ public class FlightDaoImpl implements FlightDao{
             DBManager.releaseConnection(con, ps);
         }
 
-        return result;
+        return generatedIds;
     }
 
     @Override

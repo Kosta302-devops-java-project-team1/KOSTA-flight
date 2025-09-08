@@ -8,30 +8,41 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SeatDaoImpl implements SeatDao{
 
     @Override
-    public int save(long flight_id) throws SQLException {
+    public int[] save(long flight_id) throws SQLException {
         Connection con = null;
         PreparedStatement ps = null;
-        String sql = "insert into seats(flight_id, seat_num) values (?, ?);";
-        int result=0;
+        String sql = "insert IGNORE into seats(flight_id, seat_num) values (?, ?);";
+        int[] result;
 
-        for (int i = 1; i <= 10; i++) {
-            try {
-                con = DBManager.getConnection();
+        int totalSeatCount = 30;
+        char[] seatCols = {'A', 'B', 'C', 'D', 'E', 'F'};
+        int totalRows = totalSeatCount / 6; // 행 수
 
-                ps = con.prepareStatement(sql);
-                ps.setLong(1, flight_id);
-                ps.setLong(2, i);
+        try {
+            con = DBManager.getConnection();
+            ps = con.prepareStatement(sql);
+            for (int row = 1; row <= totalRows; row++) {       // 1행 ~ 30행
+                for (char col : seatCols) {                   // A ~ F
+                    String seatNum = col + String.valueOf(row);
 
-                result = ps.executeUpdate();
-            } finally {
-                DBManager.releaseConnection(con, ps);
+                    ps.setLong(1, flight_id);
+                    ps.setString(2, seatNum);
+
+                    ps.addBatch();
+                }
             }
+            result = ps.executeBatch();
+
+        } finally {
+            DBManager.releaseConnection(con, ps);
         }
+
 
         return result;
     }
@@ -41,7 +52,7 @@ public class SeatDaoImpl implements SeatDao{
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        String sql="select * FROM seats where flight_id = ? and is_available = ?;";
+        String sql="select * FROM seats where flight_id = ?;";
 
         List<Seat> seats = new ArrayList<>();
 
@@ -50,7 +61,6 @@ public class SeatDaoImpl implements SeatDao{
 
             ps = con.prepareStatement(sql);
             ps.setLong(1, flight_id);
-            ps.setInt(2, 1);
 
             rs = ps.executeQuery();
             while (rs.next()) {
