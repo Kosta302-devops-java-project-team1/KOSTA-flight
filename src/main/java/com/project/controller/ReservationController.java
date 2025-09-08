@@ -25,12 +25,14 @@ public class ReservationController {
     private final ReservationService reservationService = ReservationServiceImpl.getInstance();
 
 
-    public void makeReservation(Member member, Flight flight, List<Ticket> tickets)  {
+    public int makeReservation(Member member, Flight flight, List<Ticket> tickets)  {
         try {
             reservationService.makeReservation(member, flight, tickets);
             SuccessView.printMessage(member.getEmail()+"님 "+flight.getFlight_id()+"편 "+tickets.size()+"장 예매완료");
+            return 1;
         } catch (SQLException | InsufficientBalanceException | MemberNotFoundException e) {
             FailView.errorMessage(e.getMessage());
+            return 0;
         }
     }
 

@@ -19,12 +19,18 @@ public class FlightController {
     public static void flightSearch(String origin, String destination, String departDate, int adults, Member member) {
         try {
             FlightDto flightDto = new FlightDto(origin, destination, departDate, adults);
+            System.out.println("항공사로부터 정보 가져오는 중...");
 
             List<Long> flightIds = flightService.findFlights(flightDto);
-
             FlightSearchSuccessView.printFlightList(flightIds, member, adults);
+            return;
         } catch (ResponseException | SQLException e) {
             FlightSearchFailView.errorMessage("서비스 장애가 발생하였습니다." + e.getMessage());
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
         }
     }
 
@@ -34,10 +40,13 @@ public class FlightController {
             FlightDto flightDto = new FlightDto(origin, destination, departDate, adults);
             FlightDto returnFlightDto = new FlightDto(destination, origin, returnDate, adults);
 
-            List<Long> flights = flightService.findFlights(flightDto);
-            List<Long> returnFlights = flightService.findFlights(returnFlightDto);
+            System.out.println("항공사로부터 정보 가져오는 중...");
+            List<Long> flightIds = flightService.findFlights(flightDto);
+            FlightSearchSuccessView.printFlightList(flightIds, member, adults);
 
-            FlightSearchSuccessView.printFlightList(flights, returnFlights, member, adults);
+            System.out.println("항공사로부터 정보 가져오는 중...");
+            List<Long> returnFlightsIds = flightService.findFlights(returnFlightDto);
+            FlightSearchSuccessView.printFlightList(returnFlightsIds, member, adults);
 
         } catch (ResponseException | SQLException e) {
             FlightSearchFailView.errorMessage("서비스 장애가 발생하였습니다." + e.getMessage());
@@ -61,7 +70,7 @@ public class FlightController {
            flights.add(flightService.findByOneFlightId(id));
            }
        } catch (SQLException e) {
-           FlightSearchFailView.errorMessage("불러오는데 실패하였습니다.");
+           FlightSearchFailView.errorMessage("입력이 틀렸습니다. 다시 입력해주세요.");
        }
 
        return flights;

@@ -19,6 +19,7 @@ public class FlightSearchSuccessView {
     }
 
     public static void printFlightList(List<Long> flightIds, List<Long> returnFlightIds, Member member, int adults) {
+        System.out.println("------------출발행-------------");
         sortedPage(flightIds, member, adults);
 
         System.out.println("------------복귀행-------------");
