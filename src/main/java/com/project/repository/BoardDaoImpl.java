@@ -222,7 +222,6 @@ public class BoardDaoImpl implements BoardDao{
         Connection con = null;
         PreparedStatement ps = null;
         int result = 0;
-        System.out.println(board.getContent() + board.getEventEndAt() + board.getId());
         String sql = "update boards set content = ?, updated_at = now(), event_end_at = ? where board_id = ?";
         try {
             con = DBManager.getConnection();

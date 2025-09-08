@@ -17,11 +17,12 @@ public class ChargeDetailDaoImpl implements ChargeDetailDao{
         PreparedStatement ps = null;
         ResultSet rs = null;
         List<CreditHistory> list = new ArrayList<>();
-        String sql = "select * from charge_detail";
+        String sql = "select * from charge_detail where member_id = ? order by charge_id desc";
 
         try {
             con = DBManager.getConnection();
             ps = con.prepareStatement(sql);
+            ps.setLong(1, memberId);
             rs = ps.executeQuery();
             while(rs.next()){
                 list.add(new CreditHistory(rs.getLong("charge_id"),

@@ -21,9 +21,7 @@ public class MenuView {
     public void guestView(){
         while(true){
             commonView.run();
-            System.out.println("---------------------------------");
             System.out.println("[1]항공편검색 [2]로그인 [3]회원가입 [9]종료");
-            System.out.println("---------------------------------");
             String menu = sc.nextLine();
             switch (menu){
                 case "1" :

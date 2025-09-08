@@ -21,7 +21,7 @@ public class AdminView {
         while(true){
             commonView.run();
             System.out.println("-----관리자모드-----");
-            System.out.println("1.항공편 관리\t2.예약 조회/관리\t3.이벤트 조회/관리\t4.로그아웃");
+            System.out.println("[1]항공편 관리 [2]예약 조회/관리 [3]이벤트 조회/관리 [4]로그아웃");
             System.out.println("---------------------------------");
             String menu = sc.nextLine();
             switch (menu){

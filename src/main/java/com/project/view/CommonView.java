@@ -111,12 +111,12 @@ public class CommonView {
         char on = '█';                  // 채움 문자(예: '█', '■', '#', '●', 'o')
         char off = ' ';                 // 빈칸 문자(예: ' ', '.')
         render(text, scale, on, off);
-        System.out.println("----------이벤트 배너------------");
+        System.out.println("------------------------------이벤트-----------------------------");
         List<Board> list = viewEvent();
         for(Board b : list){
             System.out.println(b.getContent());
         }
-        System.out.println("-------------------------------");
+        System.out.println("----------------------------------------------------------------");
     }
 
 

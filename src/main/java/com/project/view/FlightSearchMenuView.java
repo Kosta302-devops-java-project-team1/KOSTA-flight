@@ -34,10 +34,8 @@ public class FlightSearchMenuView {
 
             FlightController.flightSearch(origin, destination, departDate, adults, member);
             FlightController.flightSearch(destination, origin, returnDate, adults, member);
-            memberView.run(member);
         } else {
             FlightController.flightSearch(origin, destination, departDate, adults, member);
-            memberView.run(member);
         }
 
     }
