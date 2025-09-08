@@ -13,8 +13,7 @@ public class SeatServiceImpl implements SeatService{
 
     @Override
     public void initSeats(long flight_id) throws SQLException {
-        // 10개의 좌석을 자동 생성해준다 | insert가 아닌 update는 flight_id를 0을 반환한다.
-        if (flight_id == 0) return;
+        // 42개의 좌석을 자동 생성해준다 | insert가 아닌 update는 flight_id를 0을 반환한다.
         seatDao.save(flight_id);
     }
 

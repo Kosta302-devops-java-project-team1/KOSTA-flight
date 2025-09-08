@@ -30,7 +30,7 @@ public class MemberView {
             String menu = sc.nextLine();
             switch (menu){
                 case "1" :
-                    testPrint();
+                    FlightSearchMenuView.search(member);
                     break;
                 case "2" :
                     member = updatePassword(member);
@@ -235,18 +235,6 @@ public class MemberView {
         return password;
     }
 
-
-
-    public void test(Member member){
-        Flight flight = new Flight();
-        flight.setFlight_id(2);
-        flight.setPrice(90600);
-        List<Ticket> list = new ArrayList<>();
-        for(int i=1; i<=2; i++){
-            list.add(new Ticket(i+"", "test"+i, "123-1234-1234", "125873"));
-        }
-        reservationController.makeReservation(member, flight, list);
-    }
     public void testCancle(Member member){
         Reservation reservation = new Reservation();
         reservation.setReservationId(8);
