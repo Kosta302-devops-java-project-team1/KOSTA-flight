@@ -1,4 +1,4 @@
-<img width="700" height="1092" alt="Image" src="https://github.com/user-attachments/assets/fbc5d7dc-b7c4-4ea3-a88e-72215e058fa3" />
+<img width="1024" height="1024" alt="Image" src="https://github.com/user-attachments/assets/ec60eea0-9e2b-43fe-9c10-a601fd9f3d4c" />
 
 ---------------------------------------------------
 # KOSTA-flight (코스타 항공권)
